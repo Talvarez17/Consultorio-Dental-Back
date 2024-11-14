@@ -2,10 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Citas extends Model
 {
-    use HasFactory;
+    protected $connection = 'mysql';
+    protected $table = 'citas';
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $fillable = [
+        "id",
+        "idPaciente",
+        "motivo",
+        "fecha",
+        "hora",
+        "estado"
+    ];
+
+    public $timestamps = false;
 }

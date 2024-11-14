@@ -151,7 +151,7 @@ class DoctoresController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 "error" => true,
-                "message" => "Ocurrió un error al eliminar el doctor"
+                "message" => "Ocurrió un error al eliminar el registro"
             ], 500);
         }
     }

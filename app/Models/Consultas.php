@@ -2,10 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Consultas extends Model
 {
-    use HasFactory;
-}
+    protected $connection = 'mysql';
+    protected $table = 'consultas';
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $fillable = [
+        "id",
+        "idPaciente",
+        "idCita",
+        "fecha",
+        "hora",
+        "prescripcion",
+        "recomendaciones"
+    ];
+
+    public $timestamps = false;}
