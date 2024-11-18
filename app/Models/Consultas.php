@@ -15,10 +15,14 @@ class Consultas extends Model
         "id",
         "idPaciente",
         "idCita",
+        "nombrePaciente",
+        "apellidoPaternoPaciente",
+        "apellidoMaternoPaciente",
         "fecha",
         "hora",
         "prescripcion",
         "recomendaciones"
     ];
 
-    public $timestamps = false;}
+    public $timestamps = false;
+}

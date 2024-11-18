@@ -14,7 +14,7 @@ class ConsultasController extends Controller
             $consultas = Consultas::all();
 
             if ($consultas->isEmpty()) {
-                return response()->json(['error' => true, 'message' => 'No se encontraron registros'], 404);
+                return response()->json(['error' => true, 'message' => 'No se encontraron registros'], 200);
             }
 
             return response()->json([
@@ -35,7 +35,7 @@ class ConsultasController extends Controller
             $consulta = Consultas::find($id);
 
             if (!$consulta) {
-                return response()->json(['error' => true, 'message' => 'Registro no encontrado'], 404);
+                return response()->json(['error' => true, 'message' => 'Registro no encontrado'], 200);
             }
 
             return response()->json([
@@ -78,7 +78,7 @@ class ConsultasController extends Controller
                 return response()->json([
                     'error' => true,
                     'message' => 'Registro no encontrado'
-                ], 404);
+                ], 200);
             }
 
             $consulta->update($request->all());
@@ -105,7 +105,7 @@ class ConsultasController extends Controller
                 return response()->json([
                     'error' => true,
                     'message' => 'Registro no encontrado'
-                ], 404);
+                ], 200);
             }
 
             $consulta->delete();

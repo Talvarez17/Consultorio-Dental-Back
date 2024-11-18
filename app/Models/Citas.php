@@ -14,6 +14,9 @@ class Citas extends Model
     protected $fillable = [
         "id",
         "idPaciente",
+        "nombrePaciente",
+        "apellidoPaternoPaciente",
+        "apellidoMaternoPaciente",
         "motivo",
         "fecha",
         "hora",

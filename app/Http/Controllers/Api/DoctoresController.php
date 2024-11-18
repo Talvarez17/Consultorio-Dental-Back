@@ -25,7 +25,7 @@ class DoctoresController extends Controller
             return response()->json([
                 'error' => true,
                 'message' => 'Correo o contraseña incorrectos'
-            ], 401);
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'error' => true,
@@ -40,7 +40,7 @@ class DoctoresController extends Controller
             $doctores = Doctores::all();
 
             if ($doctores->isEmpty()) {
-                return response()->json(['error' => true, 'message' => 'No se encontraron registros'], 404);
+                return response()->json(['error' => true, 'message' => 'No se encontraron registros'], 200);
             }
 
             return response()->json([
@@ -61,7 +61,7 @@ class DoctoresController extends Controller
             $doctor = Doctores::find($id);
 
             if (!$doctor) {
-                return response()->json(['error' => true, 'message' => 'Registro no encontrado'], 404);
+                return response()->json(['error' => true, 'message' => 'Registro no encontrado'], 200);
             }
 
             return response()->json([
@@ -106,7 +106,7 @@ class DoctoresController extends Controller
                 return response()->json([
                     'error' => true,
                     'message' => 'Registro no encontrado'
-                ], 404);
+                ], 200);
             }
 
             $data = $request->all();
@@ -139,7 +139,7 @@ class DoctoresController extends Controller
                 return response()->json([
                     'error' => true,
                     'message' => 'Registro no encontrado'
-                ], 404);
+                ], 200);
             }
 
             $doctor->delete();

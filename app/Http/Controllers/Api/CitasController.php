@@ -14,7 +14,7 @@ class CitasController extends Controller
             $citas = Citas::all();
 
             if ($citas->isEmpty()) {
-                return response()->json(['error' => true, 'message' => 'No se encontraron registros'], 404);
+                return response()->json(['error' => true, 'message' => 'No se encontraron registros'], 200);
             }
 
             return response()->json([
@@ -35,7 +35,7 @@ class CitasController extends Controller
             $cita = Citas::find($id);
 
             if (!$cita) {
-                return response()->json(['error' => true, 'message' => 'Registro no encontrado'], 404);
+                return response()->json(['error' => true, 'message' => 'Registro no encontrado'], 200);
             }
 
             return response()->json([
@@ -78,7 +78,7 @@ class CitasController extends Controller
                 return response()->json([
                     'error' => true,
                     'message' => 'Registro no encontrado'
-                ], 404);
+                ], 200);
             }
 
             $cita->update($request->all());
@@ -105,7 +105,7 @@ class CitasController extends Controller
                 return response()->json([
                     'error' => true,
                     'message' => 'Registro no encontrado'
-                ], 404);
+                ], 200);
             }
 
             $cita->delete();
