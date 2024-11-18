@@ -30,7 +30,7 @@ class DoctoresController extends Controller
             return response()->json([
                 'error' => true,
                 'message' => 'Ocurrió un error al intentar iniciar sesión'
-            ], 500);
+            ], 200);
         }
     }
 
@@ -51,7 +51,7 @@ class DoctoresController extends Controller
             return response()->json([
                 'error' => true,
                 'message' => 'Ocurrió un error al obtener la información'
-            ], 500);
+            ], 200);
         }
     }
 
@@ -72,7 +72,7 @@ class DoctoresController extends Controller
             return response()->json([
                 'error' => true,
                 'message' => 'Ocurrió un error al obtener la información'
-            ], 500);
+            ], 200);
         }
     }
 
@@ -93,7 +93,7 @@ class DoctoresController extends Controller
             return response()->json([
                 "error" => true,
                 "message" => "Ocurrió un error al crear el registro"
-            ], 500);
+            ], 200);
         }
     }
 
@@ -126,7 +126,7 @@ class DoctoresController extends Controller
             return response()->json([
                 "error" => true,
                 "message" => "Ocurrió un error al actualizar el registro"
-            ], 500);
+            ], 200);
         }
     }
 
@@ -152,7 +152,7 @@ class DoctoresController extends Controller
             return response()->json([
                 "error" => true,
                 "message" => "Ocurrió un error al eliminar el registro"
-            ], 500);
+            ], 200);
         }
     }
 }
