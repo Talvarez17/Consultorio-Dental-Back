@@ -26,7 +26,8 @@ Route::prefix('paciente')->group(function () {
 });
 
 Route::prefix('citas')->group(function () {
-    Route::get('/getAll', [CitasController::class, 'getAll']);
+    Route::get('/getAllToday', [CitasController::class, 'getAllToday']);
+    Route::get('/getAllNext', [CitasController::class, 'getAllNext']);
     Route::get('/getOne/{id}', [CitasController::class, 'getOne']);
     Route::post('/insert', [CitasController::class, 'insert']);
     Route::put('/update/{id}', [CitasController::class, 'update']);

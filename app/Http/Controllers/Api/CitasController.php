@@ -8,10 +8,25 @@ use App\Models\Citas;
 
 class CitasController extends Controller
 {
-    public function getAll()
+
+    public function getAllToday(Request $request)
     {
         try {
-            $citas = Citas::all();
+            $pageSize = $request->query('pageSize', 10);
+            $search = $request->query('search', '');
+
+            $hoy = now()->toDateString();
+            $query = Citas::whereDate('fecha', $hoy)->orderBy('hora', 'asc');
+
+            if (!empty($search)) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('nombrePaciente', 'like', "%$search%")
+                        ->orWhere('apellidoPaternoPaciente', 'like', "%$search%")
+                        ->orWhere('apellidoMaternoPaciente', 'like', "%$search%");
+                });
+            }
+
+            $citas = $query->paginate($pageSize);
 
             if ($citas->isEmpty()) {
                 return response()->json(['error' => true, 'message' => 'No se encontraron registros'], 200);
@@ -19,7 +34,54 @@ class CitasController extends Controller
 
             return response()->json([
                 'error' => false,
-                'data' => $citas
+                'data' => $citas->items(),
+                'pagination' => [
+                    'total' => $citas->total(),
+                    'currentPage' => $citas->currentPage(),
+                    'lastPage' => $citas->lastPage(),
+                    'perPage' => $citas->perPage()
+                ]
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Ocurrió un error al obtener la información'
+            ], 200);
+        }
+    }
+
+    public function getAllNext(Request $request)
+    {
+        try {
+            $pageSize = $request->query('pageSize', 10);
+            $search = $request->query('search', '');
+
+            $hoy = now()->toDateString();
+            $query = Citas::whereDate('fecha','>', $hoy)->orderBy('hora', 'asc');
+
+            if (!empty($search)) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('nombrePaciente', 'like', "%$search%")
+                        ->orWhere('apellidoPaternoPaciente', 'like', "%$search%")
+                        ->orWhere('apellidoMaternoPaciente', 'like', "%$search%");
+                });
+            }
+
+            $citas = $query->paginate($pageSize);
+
+            if ($citas->isEmpty()) {
+                return response()->json(['error' => true, 'message' => 'No se encontraron registros'], 200);
+            }
+
+            return response()->json([
+                'error' => false,
+                'data' => $citas->items(),
+                'pagination' => [
+                    'total' => $citas->total(),
+                    'currentPage' => $citas->currentPage(),
+                    'lastPage' => $citas->lastPage(),
+                    'perPage' => $citas->perPage()
+                ]
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
