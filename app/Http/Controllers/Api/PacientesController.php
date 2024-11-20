@@ -34,10 +34,12 @@ class PacientesController extends Controller
         }
     }
 
-    public function getAll()
+    public function getAll(Request $request)
     {
         try {
-            $pacientes = Pacientes::all();
+            $pageSize = $request->query('pageSize', 10);
+
+            $pacientes = Pacientes::orderBy('nombre', 'asc')->paginate($pageSize);
 
             if ($pacientes->isEmpty()) {
                 return response()->json(['error' => true, 'message' => 'No se encontraron registros'], 200);
@@ -45,7 +47,13 @@ class PacientesController extends Controller
 
             return response()->json([
                 'error' => false,
-                'data' => $pacientes
+                'data' => $pacientes->items(), // Los registros de la página actual
+                'pagination' => [
+                    'total' => $pacientes->total(),
+                    'currentPage' => $pacientes->currentPage(),
+                    'lastPage' => $pacientes->lastPage(),
+                    'perPage' => $pacientes->perPage()
+                ]
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -54,6 +62,28 @@ class PacientesController extends Controller
             ], 200);
         }
     }
+
+
+    // public function getAll()
+    // {
+    //     try {
+    //         $pacientes = Pacientes::all();
+
+    //         if ($pacientes->isEmpty()) {
+    //             return response()->json(['error' => true, 'message' => 'No se encontraron registros'], 200);
+    //         }
+
+    //         return response()->json([
+    //             'error' => false,
+    //             'data' => $pacientes
+    //         ], 200);
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'error' => true,
+    //             'message' => 'Ocurrió un error al obtener la información'
+    //         ], 200);
+    //     }
+    // }
 
     public function getOne($id)
     {
