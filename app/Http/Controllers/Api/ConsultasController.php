@@ -29,6 +29,45 @@ class ConsultasController extends Controller
         }
     }
 
+    public function getAllRecetas(Request $request)
+    {
+        try {
+            $pageSize = $request->query('pageSize', 10);
+            $id = $request->query('id', '');
+
+            if (empty($id)) {
+                return response()->json([
+                    'error' => true,
+                    'message' => 'El ID de la cita es obligatorio.'
+                ], 400);
+            }
+
+            $query = Consultas::where('idCita', $id)->orderBy('fecha', 'desc');
+
+            $citas = $query->paginate($pageSize);
+
+            if ($citas->isEmpty()) {
+                return response()->json(['error' => true, 'message' => 'No se encontraron registros'], 200);
+            }
+
+            return response()->json([
+                'error' => false,
+                'data' => $citas->items(),
+                'pagination' => [
+                    'total' => $citas->total(),
+                    'currentPage' => $citas->currentPage(),
+                    'lastPage' => $citas->lastPage(),
+                    'perPage' => $citas->perPage()
+                ]
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Ocurrió un error al obtener la información'
+            ], 200);
+        }
+    }
+
     public function getOne($id)
     {
         try {

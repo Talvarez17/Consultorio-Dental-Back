@@ -57,7 +57,7 @@ class CitasController extends Controller
             $search = $request->query('search', '');
 
             $hoy = now()->toDateString();
-            $query = Citas::whereDate('fecha','>', $hoy)->orderBy('fecha', 'asc');
+            $query = Citas::whereDate('fecha', '>', $hoy)->orderBy('fecha', 'asc');
 
             if (!empty($search)) {
                 $query->where(function ($q) use ($search) {
@@ -93,31 +93,31 @@ class CitasController extends Controller
     public function getAllCitas(Request $request)
     {
         try {
-            $pageSize = $request->query('pageSize', 10); 
+            $pageSize = $request->query('pageSize', 10);
             $search = $request->query('search', '');
-            $id = $request->query('id', ''); 
-    
+            $id = $request->query('id', '');
+
             if (empty($id)) {
                 return response()->json([
                     'error' => true,
                     'message' => 'El ID del paciente es obligatorio.'
                 ], 400);
             }
-    
+
             $query = Citas::where('idPaciente', $id)->orderBy('fecha', 'desc');
-    
+
             if (!empty($search)) {
                 $query->where(function ($q) use ($search) {
                     $q->where('motivo', 'like', "%$search%");
                 });
             }
-    
+
             $citas = $query->paginate($pageSize);
-    
+
             if ($citas->isEmpty()) {
                 return response()->json(['error' => true, 'message' => 'No se encontraron registros'], 200);
             }
-    
+
             return response()->json([
                 'error' => false,
                 'data' => $citas->items(),
@@ -128,7 +128,6 @@ class CitasController extends Controller
                     'perPage' => $citas->perPage()
                 ]
             ], 200);
-    
         } catch (\Exception $e) {
             return response()->json([
                 'error' => true,
@@ -136,7 +135,7 @@ class CitasController extends Controller
             ], 200);
         }
     }
-    
+
 
     public function getOne($id)
     {
