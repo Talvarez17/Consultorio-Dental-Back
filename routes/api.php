@@ -36,7 +36,6 @@ Route::prefix('citas')->group(function () {
 });
 
 Route::prefix('consulta')->group(function () {
-    Route::get('/getAll', [ConsultasController::class, 'getAll']);
     Route::get('/getAllRecetas', [ConsultasController::class, 'getAllRecetas']);
     Route::get('/getOne/{id}', [ConsultasController::class, 'getOne']);
     Route::post('/insert', [ConsultasController::class, 'insert']);

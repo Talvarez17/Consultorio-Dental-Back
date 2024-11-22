@@ -8,26 +8,6 @@ use Illuminate\Http\Request;
 
 class ConsultasController extends Controller
 {
-    public function getAll()
-    {
-        try {
-            $consultas = Consultas::all();
-
-            if ($consultas->isEmpty()) {
-                return response()->json(['error' => true, 'message' => 'No se encontraron registros'], 200);
-            }
-
-            return response()->json([
-                'error' => false,
-                'data' => $consultas
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => true,
-                'message' => 'Ocurrió un error al obtener la información'
-            ], 200);
-        }
-    }
 
     public function getAllRecetas(Request $request)
     {
@@ -60,6 +40,7 @@ class ConsultasController extends Controller
                     'perPage' => $citas->perPage()
                 ]
             ], 200);
+            
         } catch (\Exception $e) {
             return response()->json([
                 'error' => true,

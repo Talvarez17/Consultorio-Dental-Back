@@ -40,7 +40,7 @@ class PacientesController extends Controller
             $pageSize = $request->query('pageSize', 10);
             $search = $request->query('search', '');
 
-            $query = Pacientes::orderBy('nombre', 'desc');
+            $query = Pacientes::orderBy('nombre', 'asc');
 
             if (!empty($search)) {
                 $query->where(function ($q) use ($search) {
@@ -73,8 +73,6 @@ class PacientesController extends Controller
             ], 200);
         }
     }
-
-
 
     public function getOne($id)
     {
