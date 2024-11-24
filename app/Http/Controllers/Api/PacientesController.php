@@ -149,6 +149,63 @@ class PacientesController extends Controller
         }
     }
 
+    public function updatePassword(Request $request, $id)
+    {
+        try {
+            $paciente = Pacientes::find($id);
+
+            if (!$paciente) {
+                return response()->json([
+                    'error' => true,
+                    'message' => 'Registro no encontrado'
+                ], 200);
+            }
+
+            $paciente->update([
+                'contrasenia' => Hash::make($request->input('contrasenia'))
+            ]);
+
+            return response()->json([
+                "error" => false,
+                "message" => "Contraseña actualizada exitosamente"
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                "error" => true,
+                "message" => "Ocurrió un error al actualizar la contraseña"
+            ], 200);
+        }
+    }
+
+    public function updateEmail(Request $request, $id)
+    {
+        try {
+            $paciente = Pacientes::find($id);
+
+            if (!$paciente) {
+                return response()->json([
+                    'error' => true,
+                    'message' => 'Registro no encontrado'
+                ], 200);
+            }
+
+            $paciente->update([
+                'correo' => $request->input('correo')
+            ]);
+
+            return response()->json([
+                "error" => false,
+                "message" => "Correo actualizado exitosamente"
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                "error" => true,
+                "message" => "Ocurrió un error al actualizar el correo"
+            ], 200);
+        }
+    }
+
+
     public function delete($id)
     {
         try {

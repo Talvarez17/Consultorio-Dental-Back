@@ -101,7 +101,7 @@ class CitasController extends Controller
                 return response()->json([
                     'error' => true,
                     'message' => 'El ID del paciente es obligatorio.'
-                ], 400);
+                ], 200);
             }
 
             $query = Citas::where('idPaciente', $id)->orderBy('fecha', 'desc');
@@ -136,6 +136,99 @@ class CitasController extends Controller
         }
     }
 
+    public function getHistorial(Request $request)
+    {
+        try {
+            $pageSize = $request->query('pageSize', 10);
+            $search = $request->query('search', '');
+            $id = $request->query('id', '');
+
+            if (empty($id)) {
+                return response()->json([
+                    'error' => true,
+                    'message' => 'El ID del paciente es obligatorio.'
+                ], 200);
+            }
+
+            $hoy = now()->toDateString();
+            $query = Citas::where('idPaciente', $id)->whereDate('fecha', '<=', $hoy)->orderBy('fecha', 'desc');
+
+            if (!empty($search)) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('motivo', 'like', "%$search%");
+                });
+            }
+
+            $citas = $query->paginate($pageSize);
+
+            if ($citas->isEmpty()) {
+                return response()->json(['error' => true, 'message' => 'No se encontraron registros'], 200);
+            }
+
+            return response()->json([
+                'error' => false,
+                'data' => $citas->items(),
+                'pagination' => [
+                    'total' => $citas->total(),
+                    'currentPage' => $citas->currentPage(),
+                    'lastPage' => $citas->lastPage(),
+                    'perPage' => $citas->perPage()
+                ]
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Ocurrió un error al obtener la información'
+            ], 200);
+        }
+    }
+
+    public function getProximaPaciente(Request $request)
+    {
+        try {
+            $pageSize = $request->query('pageSize', 10);
+            $search = $request->query('search', '');
+            $id = $request->query('id', '');
+
+            if (empty($id)) {
+                return response()->json([
+                    'error' => true,
+                    'message' => 'El ID del paciente es obligatorio.'
+                ], 200);
+            }
+
+            $hoy = now()->toDateString();
+            $query = Citas::where('idPaciente', $id)->whereDate('fecha', '>=', $hoy)->orderBy('fecha', 'desc');
+
+            if (!empty($search)) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('motivo', 'like', "%$search%");
+                });
+            }
+
+            $citas = $query->paginate($pageSize);
+
+            if ($citas->isEmpty()) {
+                return response()->json(['error' => true, 'message' => 'No se encontraron registros'], 200);
+            }
+
+            return response()->json([
+                'error' => false,
+                'data' => $citas->items(),
+                'pagination' => [
+                    'total' => $citas->total(),
+                    'currentPage' => $citas->currentPage(),
+                    'lastPage' => $citas->lastPage(),
+                    'perPage' => $citas->perPage()
+                ]
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Ocurrió un error al obtener la información'
+            ], 200);
+        }
+    }
 
     public function getOne($id)
     {

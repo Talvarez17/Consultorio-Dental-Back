@@ -22,6 +22,8 @@ Route::prefix('paciente')->group(function () {
     Route::get('/getOne/{id}', [PacientesController::class, 'getOne']);
     Route::post('/insert', [PacientesController::class, 'insert']);
     Route::put('/update/{id}', [PacientesController::class, 'update']);
+    Route::put('/updatePassword/{id}', [PacientesController::class, 'updatePassword']);
+    Route::put('/updateEmail/{id}', [PacientesController::class, 'updateEmail']);
     Route::delete('/delete/{id}', [PacientesController::class, 'delete']);
 });
 
@@ -29,6 +31,8 @@ Route::prefix('citas')->group(function () {
     Route::get('/getAllToday', [CitasController::class, 'getAllToday']);
     Route::get('/getAllNext', [CitasController::class, 'getAllNext']);
     Route::get('/getAllCitas', [CitasController::class, 'getAllCitas']);
+    Route::get('/getHistorial', [CitasController::class, 'getHistorial']);
+    Route::get('/getProximaPaciente', [CitasController::class, 'getProximaPaciente']);
     Route::get('/getOne/{id}', [CitasController::class, 'getOne']);
     Route::post('/insert', [CitasController::class, 'insert']);
     Route::put('/update/{id}', [CitasController::class, 'update']);
