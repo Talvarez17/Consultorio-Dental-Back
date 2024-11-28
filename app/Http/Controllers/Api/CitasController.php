@@ -198,7 +198,7 @@ class CitasController extends Controller
             }
 
             $hoy = now()->toDateString();
-            $query = Citas::where('idPaciente', $id)->whereDate('fecha', '>=', $hoy)->orderBy('fecha', 'desc');
+            $query = Citas::where('idPaciente', $id)->whereDate('fecha', '>=', $hoy)->orderBy('fecha', 'asc');
 
             if (!empty($search)) {
                 $query->where(function ($q) use ($search) {
