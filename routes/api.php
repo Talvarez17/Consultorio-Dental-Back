@@ -34,6 +34,7 @@ Route::prefix('citas')->group(function () {
     Route::get('/getHistorial', [CitasController::class, 'getHistorial']);
     Route::get('/getProximaPaciente', [CitasController::class, 'getProximaPaciente']);
     Route::get('/getOne/{id}', [CitasController::class, 'getOne']);
+    Route::post('/horarios', [CitasController::class, 'getHorarios']);
     Route::post('/insert', [CitasController::class, 'insert']);
     Route::put('/update/{id}', [CitasController::class, 'update']);
     Route::delete('/delete/{id}', [CitasController::class, 'delete']);

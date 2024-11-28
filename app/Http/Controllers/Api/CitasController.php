@@ -251,6 +251,32 @@ class CitasController extends Controller
         }
     }
 
+    public function getHorarios(Request $request)
+    {
+        try {
+            $fecha = $request->input('fecha');
+            $citas = Citas::where('fecha', $fecha)->get(['hora']);
+
+            if ($citas->isEmpty()) {
+                return response()->json([
+                    'error' => false,
+                    'data' => []
+                ], 200);
+            }
+
+            return response()->json([
+                'error' => false,
+                'data' => $citas
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Ocurrió un error al obtener la información'
+            ], 200);
+        }
+    }
+
+
     public function insert(Request $request)
     {
         try {
